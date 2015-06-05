@@ -1,0 +1,22 @@
+<link href="../polymer/polymer.html" rel="import">
+
+<dom-module id="my-soundtrack">
+    <template>
+        <audio id="soundtrack">
+            <source src="{{url}}"></source>
+        </audio>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'my-soundtrack',
+        properties : {
+            url: String
+        },
+        ready: function () {
+            console.log('init soundtrack');
+            this.$.soundtrack.play();
+        }
+    });
+</script>

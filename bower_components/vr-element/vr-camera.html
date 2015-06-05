@@ -1,0 +1,84 @@
+<link href="../polymer/polymer.html" rel="import">
+
+
+<script src="js/babylon.2.0.js"></script>
+<script src="js/Oimo.js"></script>
+
+<polymer-element name="vr-camera" attributes="scene camera postition rotation lookat path time viewer">
+    <script>
+        
+        Polymer({
+            camera: null,
+            postition: {x:0,y:1,z:-15},
+            rotation: {x:0,y:0,z:0},
+            lookat: null,
+            path: null,
+            time: 10,
+            viewer: 'standar',
+            
+            createCamera: function () {
+                
+                if (this.viewer == 'oculus') {
+                    this.camera = new BABYLON.OculusCamera("camera", new BABYLON.Vector3(this.position.x, position.y, position.z), this.scene);
+                } else if (this.viewer == 'cardboard') {
+                    this.camera = new BABYLON.VRDeviceOrientationCamera("camera", new BABYLON.Vector3(this.position.x, position.y, position.z), this.scene);
+                    this.camera.rotation.x = 90;
+                } else if (this.viewer == 'vr'){
+                     this.camera = new BABYLON.VirtualJoysticksCamera("camera", BABYLON.Vector3.Zero(), this.scene);
+                }
+                else {
+                    this.camera = new BABYLON.ArcRotateCamera("camera", 0, 0, 0, BABYLON.Vector3.Zero(), this.scene);
+                    this.camera.setPosition(new BABYLON.Vector3(this.position.x, position.y, position.z));
+                }
+
+                this.camera.attachControl(this.secene.canvas, false);
+            },
+            ready: function () {
+
+            }
+
+        });
+    </script>
+
+</polymer-element>
+
+
+
+
+
+<!--
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<script src="js/babylon.2.0.js"></script>
+<script src="js/Oimo.js"></script>
+
+<polymer-element name="vr-element" attributes="scene camera canvas">
+    <template>
+        <style>
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+
+        <div> engine </div>
+
+        <canvas id="renderCanvas"></canvas>
+
+    </template>
+    <script>
+        Polymer({
+            scene: null,
+            camera: null,
+            canvas: null,
+            ready: function () {
+                console.log('created');
+            },
+            created: function () {
+                console.log('created');
+                canvas = querySelector("#renderCanvas");
+            }
+
+        });
+    </script>
+</polymer-element>-->

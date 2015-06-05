@@ -1,0 +1,126 @@
+<link href="../polymer/polymer.html" rel="import">
+
+
+<script src="js/babylon.2.0.js"></script>
+<script src="js/Oimo.js"></script>
+
+<polymer-element name="vr-engine" attributes="scene camera object">
+    <template>
+
+        <style>
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+
+        <canvas id="renderCanvas"></canvas>
+
+    </template>
+    <script>
+        var _VR_Scene = null;
+
+        Polymer({
+            
+            scene: null,
+            sceneObject: null,
+            canvas: null,
+            engine: null,
+            lights: {},
+            createScene: function () {
+
+                _VR_Scene = new BABYLON.Scene(this.engine);
+
+                _VR_Scene.clearColor = new BABYLON.Color3(0, 0, 0);
+
+//                this.camera.createCamera() 
+
+                this.cameraObject.attachControl(this.canvas, false);
+
+                this.lights.base = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 30, 30), _VR_Scene);
+                this.lights.base = .5;
+
+                BABYLON.SceneLoader.ImportMesh("", "/scenes/", this.scene, _VR_Scene, function (newMeshes) {
+                    // Set the target of the camera to the first imported mesh
+                    // camera.target = newMeshes[0];
+
+                    var tube = newMeshes[0];
+
+                    //tube.rotation.x = 180;
+                    //                    tube.checkCollisions = true;
+                    //                    tube.setPhysicsState({
+                    //                        impostor: BABYLON.PhysicsEngine.PlaneImpostor,
+                    //                        mass: 0
+                    //                    });
+
+                });
+
+                return _VR_Scene;
+
+
+            },
+            ready: function () {
+
+                this.canvas = this.$.renderCanvas;
+
+                this.engine = new BABYLON.Engine(this.canvas, true);
+
+                this.createScene();
+
+                this.engine.runRenderLoop(function () {
+                    _VR_Scene.render();
+                });
+                // Register a render loop to repeatedly render the scene
+
+                // Watch for browser/canvas resize events
+                window.addEventListener("resize", function () {
+                    this.engine.resize();
+                });
+            }
+
+        });
+    </script>
+
+</polymer-element>
+
+
+
+
+
+<!--
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<script src="js/babylon.2.0.js"></script>
+<script src="js/Oimo.js"></script>
+
+<polymer-element name="vr-element" attributes="scene camera canvas">
+    <template>
+        <style>
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+
+        <div> engine </div>
+
+        <canvas id="renderCanvas"></canvas>
+
+    </template>
+    <script>
+        Polymer({
+            scene: null,
+            camera: null,
+            canvas: null,
+            ready: function () {
+                console.log('created');
+            },
+            created: function () {
+                console.log('created');
+                canvas = querySelector("#renderCanvas");
+            }
+
+        });
+    </script>
+</polymer-element>-->

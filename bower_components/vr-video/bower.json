@@ -1,0 +1,14 @@
+{
+  "name": "vr-video",
+  "version": "0.0.1",
+  "description": "Virtual reality video",
+  "main": "vr-video.html",
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.0.2"
+  },
+  "devDependencies": {
+    "iron-component-page": "polymerelements/iron-component-page#^1.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.2"
+  }
+}

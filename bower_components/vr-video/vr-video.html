@@ -1,0 +1,83 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script src="js/Babylon.js"></script>
+<script src="js/Oimo.js"></script>
+
+<dom-module id="vr-video">
+
+  <style>
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+  </style>
+
+  <template>
+    <canvas id="renderCanvas"></canvas>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'vr-video',
+
+    properties: {
+      video: { type: String },
+      camera: { type: String }
+    },
+
+    cameraObject: null,
+    sceneObject: null,
+    sceneLoader: null,
+    canvas: null,
+    engine: null,
+    lights: {},
+
+    createScene: function () {
+      var self = this;
+
+      this.sceneObject = new BABYLON.Scene(this.engine);
+
+      this.sceneObject.clearColor = new BABYLON.Color3(0, 0, 0);
+
+      if (this.camera == 'oculus') {
+        this.cameraObject = new BABYLON.OculusCamera('camera', new BABYLON.Vector3(0, 15, -30), this.sceneObject);
+      } else if (this.camera == 'cardboard') {
+        this.cameraObject = new BABYLON.VRDeviceOrientationCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
+      } else if (this.camera == 'vr') {
+        this.cameraObject = new BABYLON.VirtualJoysticksCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
+      } else {
+        this.cameraObject = new BABYLON.ArcRotateCamera('camera', 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
+      }
+
+      this.sceneLoader = BABYLON.SceneLoader.ImportMesh('', '', 'sphere.babylon', this.sceneObject, function (newMeshes) {
+        self.sceneLoader = newMeshes[0];
+        self.sceneLoader.material = new BABYLON.StandardMaterial('texture1', self.sceneObject);
+        self.sceneLoader.material.backFaceCulling = false;
+        self.sceneLoader.material.emissiveTexture = new BABYLON.VideoTexture('video', [self.video], 1024, self.sceneObject, true);
+      });
+    },
+
+    ready: function () {
+      var self = this;
+
+      this.canvas = this.$.renderCanvas;
+
+      this.engine = new BABYLON.Engine(this.canvas, true);
+
+      this.engine.setSize(window.innerWidth, window.innerHeight);
+
+      this.createScene();
+
+      this.engine.runRenderLoop(function () {
+        self.sceneObject.render();
+      });
+
+      window.addEventListener('resize', function () {
+        self.engine.resize();
+      });
+    }
+  });
+</script>

@@ -1,0 +1,19 @@
+/* @font-face kit by Fonts2u (http://www.fonts2u.com) */
+
+@font-face {
+    font-family: "jedai";
+    src: url("STARWARS.eot?") format("eot"), url("STARWARS.woff") format("woff"), url("STARWARS.ttf") format("truetype"), url("STARWARS.svg#STARWARS") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'jedai';
+    color: black;
+    font-size: 60px;
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: yellow;
+}

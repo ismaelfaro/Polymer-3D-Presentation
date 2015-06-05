@@ -1,0 +1,135 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script src="js/Babylon.js"></script>
+<script src="js/Oimo.js"></script>
+
+<dom-module id="vr-engine">
+
+    <style>
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+
+    <template>
+        <canvas id="renderCanvas"></canvas>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'vr-engine',
+
+        properties: {
+            scene: {
+                type: String
+            },
+            camera: {
+                type: String
+            }
+        },
+
+        sceneObject: null,
+        cameraObject: null,
+        canvas: null,
+        engine: null,
+        followme: null,
+        lights: {},
+
+        createScene: function () {
+            var self = this;
+
+            this.sceneObject = new BABYLON.Scene(this.engine);
+
+
+            this.sceneObject.clearColor = new BABYLON.Color3(0, 0, 0);
+
+            switch (this.camera) {
+            case 'oculus':
+                this.cameraObject = new BABYLON.OculusCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                break;
+            case 'cardboard':
+                this.cameraObject = new BABYLON.VRDeviceOrientationCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                this.cameraObject.rotation.x = 90;
+                break;
+            case 'vr':
+                this.cameraObject = new BABYLON.VirtualJoysticksCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
+                break;
+            case 'follow':
+                this.cameraObject = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 0, 0), this.sceneObject);
+                this.cameraObject.target = this.followme; // target any mesh or object with a "position" Vector3
+                this.cameraObject.radius = 10; // how far from the object to follow
+                this.cameraObject.heightOffset = 8; // how high above the object to place the camera
+                this.cameraObject.rotationOffset = 100; // the viewing angle
+                this.cameraObject.cameraAcceleration = 0.001; // how fast to move
+                this.cameraObject.maxCameraSpeed = 0.04; // speed limit    
+
+                break;
+            default:
+                this.cameraObject = new BABYLON.ArcRotateCamera('camera', 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
+                this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
+            }
+
+            //
+            //            if (this.camera == 'oculus') {
+            //                this.cameraObject = new BABYLON.OculusCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+            //            } else if (this.camera == 'cardboard') {
+            //                this.cameraObject = new BABYLON.VRDeviceOrientationCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+            //                this.cameraObject.rotation.x = 90;
+            //            } else if (this.camera == 'vr') {
+            //                this.cameraObject = new BABYLON.VirtualJoysticksCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
+            //            } else {
+            //                this.cameraObject = new BABYLON.ArcRotateCamera('camera', 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
+            //                this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
+            //            }
+
+            this.cameraObject.attachControl(this.canvas, false);
+
+            // TODO: Why override lights?
+            this.lights.base = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 30, 30), this.sceneObject);
+            this.lights.base = .5;
+
+            var sceneFilename = this.scene.split('/').slice(-1)[0],
+                rootUrl = this.scene.slice(0, -sceneFilename.length);
+
+            var animations = null;
+
+            // TODO: Why callback function?
+            BABYLON.SceneLoader.ImportMesh('', rootUrl, sceneFilename, this.sceneObject, function (newMeshes) {
+                console.info(newMeshes);
+                newMeshes.forEach(function (elemen) {
+                    if (elemen.animations.length > 0) {
+                        self.sceneObject.beginAnimation(elemen, 0, 250, true);
+                        if (elemen.id === "followme") {
+                            self.cameraObject.target = elemen;
+                        }
+                    }
+                });
+
+            });
+        },
+
+        ready: function () {
+            var self = this;
+
+            this.canvas = this.$.renderCanvas;
+
+            this.engine = new BABYLON.Engine(this.canvas, true);
+
+            this.engine.setSize(window.innerWidth, window.innerHeight);
+
+            this.createScene();
+
+            this.engine.runRenderLoop(function () {
+                self.sceneObject.render();
+            });
+
+            window.addEventListener('resize', function () {
+                self.engine.resize();
+            });
+        }
+    });
+</script>

@@ -1,0 +1,50 @@
+<link href="../polymer/polymer.html" rel="import">
+
+<dom-module id="demo-demo">
+
+    <template>
+        <style>
+            :host {
+                color: blue;
+            }
+            
+            .demo {
+                color: red;
+                position: absolute;
+                width: 50em;
+                height: 50em;
+                bottom: 0;
+                left: 25%;
+                /*            margin-left: 0em;*/
+                /*            font-size: 350%;*/
+                
+                font-weight: bold;
+                text-align: justify;
+                overflow: hidden;
+                /*            transform-origin: 50% 100%;*/
+                
+                transform: perspective(600px) rotateX(50deg);
+            }
+        </style>
+        aaa
+        <div class="demo">
+
+            <content> </content>
+
+        </div>
+        vvv
+    </template>
+
+</dom-module>
+
+
+<script>
+    Polymer({
+
+        is: "demo-demo",
+        ready: function () {
+            console.log('ahhh');
+        }
+
+    });
+</script>
