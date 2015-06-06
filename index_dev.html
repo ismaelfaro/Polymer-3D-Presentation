@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>polymer demo 1</title>
+
+    <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+
+    <link rel="import" href="/bower_components/font-jedai/jedai.html">
+    <link rel="import" href="/bower_components/my-sable/my-sable.html">
+    <link rel="import" href="/bower_components/my-soundtrack/my-soundtrack.html">
+    <link rel="import" href="/bower_components/my-title/my-title.html">
+    <link rel="import" href="/bower_components/dark-side/dark-side.html">
+    <link rel="import" href="/bower_components/test/test.html">
+
+    <link rel="import" href="/bower_components/vr-engine/vr-engine.html">
+
+    <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+
+    <!--
+    <link rel="import" href="/bower_components/neon-animation/neon-animated-pages.html">
+    <link rel="import" href="/bower_components/neon-animation/neon-animatable.html">
+    <link rel="import" href="/bower_components/neon-animation/neon-animations.html">
+-->
+
+
+    <!--
+
+    <link rel="import" href="/bower_components/vr-element/vr-scene.html">
+    <link rel="import" href="/bower_components/vr-element/vr-camera.html">
+    <link rel="import" href="/bower_components/vr-element/vr-floor.html">
+-->
+
+    <style>
+        body {
+            background-color: black;
+            color: yellow;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--
+    <neon-animated-pages id="pages" class="flex" selected="0" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+        <neon-animatable>1</neon-animatable>
+        <neon-animatable>
+            <my-title>
+
+                <div>
+                    <h1> POLYMER 3D</h1>
+                    <h1> THE FRONTEND WAR </h1>
+                    <h1> STARWARS edition </h1>
+                </div>
+
+            </my-title>
+        </neon-animatable>
+        <neon-animatable>
+            
+            
+        </neon-animatable>
+    </neon-animated-pages>
+-->
+
+    <my-soundtrack url="/sounds/soundtrack.mp3"></my-soundtrack>
+
+    <iron-pages selected="0">
+
+        <div>
+            <my-title>
+                <div>
+                    <h1> POLYMER 3D</h1>
+                    <h1> THE FRONTEND WAR </h1>
+                    <h1> STARWARS edition </h1>
+
+                </div>
+            </my-title>
+        </div>
+        <div>
+           
+            <my-sable></my-sable>
+            <dark-side></dark-side>
+
+        </div>
+        <div>
+            <vr-engine scene="/scenes/falcon.babylon" ></vr-engine>
+        </div>
+        <div>
+            <h1> Tanks </h1>
+            <br>
+            <h1> que la fuerza</h1>
+            <h1> te acompañe</h1>
+            <br>
+            <h1> +@ismaelfaro  </h1>
+        </div>
+
+    </iron-pages>
+
+
+    <!--
+    <vr-scene id="scene1" scene="{{scene1}}" nextscene="" time="{{scene1time}}">
+
+        <vr-camara id="camera1" camera="{{camera1}}" scene="{{scene1}}" animation="{{animationCamera}}">
+
+        </vr-camara>
+-->
+    <!--
+
+        <vr-lights scene="{{scene1}}"></vr-lights>
+        <vr-background id="fondo" scene="{{scene1}}" model="desierto.3d"></vr-background>
+        <vr-background id="primerplano" scene="{{scene1}}" model="desierto.3d"></vr-background>
+        <vr-background id="planomedio" scene="{{scene1}}" model="desierto.3d" effect="{{DOF}}"></vr-background>
+
+        <vr-objects>
+            <vr-object scene="{{scene1}}" model="mifichero3D.3d" position="{x:0,y:0,z:0}" path="" time="">
+
+
+            </vr-object>
+        </vr-objects>
+
+
+        <my-soundtrack sound=""></my-soundtrack>
+
+        <vr-animation time="{{scene1time}}">
+
+
+
+        </vr-animation>
+
+
+    </vr-scene>
+-->
+
+    <script>
+        document.addEventListener('keypress', function (e) {
+            var pages = document.querySelector('iron-pages');
+            pages.selectNext();
+        });
+    </script>
+
+</body>
+
+</html>

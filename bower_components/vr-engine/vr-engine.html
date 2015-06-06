@@ -29,6 +29,10 @@
             },
             camera: {
                 type: String
+            },
+            animationLength:{
+                type: Number,
+                value: "250"
             }
         },
 
@@ -37,13 +41,12 @@
         canvas: null,
         engine: null,
         followme: null,
-        lights: {},
+        lights: [],
 
         createScene: function () {
             var self = this;
 
             this.sceneObject = new BABYLON.Scene(this.engine);
-
 
             this.sceneObject.clearColor = new BABYLON.Color3(0, 0, 0);
 
@@ -72,36 +75,20 @@
                 this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
             }
 
-            //
-            //            if (this.camera == 'oculus') {
-            //                this.cameraObject = new BABYLON.OculusCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
-            //            } else if (this.camera == 'cardboard') {
-            //                this.cameraObject = new BABYLON.VRDeviceOrientationCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
-            //                this.cameraObject.rotation.x = 90;
-            //            } else if (this.camera == 'vr') {
-            //                this.cameraObject = new BABYLON.VirtualJoysticksCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
-            //            } else {
-            //                this.cameraObject = new BABYLON.ArcRotateCamera('camera', 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
-            //                this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
-            //            }
-
             this.cameraObject.attachControl(this.canvas, false);
 
-            // TODO: Why override lights?
-            this.lights.base = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 30, 30), this.sceneObject);
-            this.lights.base = .5;
-
+            this.lights.push( new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 30, 30), this.sceneObject));
+           
             var sceneFilename = this.scene.split('/').slice(-1)[0],
                 rootUrl = this.scene.slice(0, -sceneFilename.length);
 
             var animations = null;
 
-            // TODO: Why callback function?
             BABYLON.SceneLoader.ImportMesh('', rootUrl, sceneFilename, this.sceneObject, function (newMeshes) {
                 console.info(newMeshes);
                 newMeshes.forEach(function (elemen) {
                     if (elemen.animations.length > 0) {
-                        self.sceneObject.beginAnimation(elemen, 0, 250, true);
+                        self.sceneObject.beginAnimation(elemen, 0, self.animationLength, true);
                         if (elemen.id === "followme") {
                             self.cameraObject.target = elemen;
                         }
