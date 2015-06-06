@@ -87,7 +87,7 @@
 
         </div>
         <div>
-            <vr-engine scene="/scenes/p4.babylon" camera="follow"></vr-engine>
+            <vr-engine scene="/scenes/falcon.babylon" ></vr-engine>
         </div>
         <div>
             <h1> Tanks </h1>
@@ -136,7 +136,7 @@
 -->
 
     <script>
-        document.addEventListener('click', function (e) {
+        document.addEventListener('keypress', function (e) {
             var pages = document.querySelector('iron-pages');
             pages.selectNext();
         });
