@@ -1,29 +1,25 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="dark-side">
-<template>
     <style>
-    
-        img{
+        img {
             width: 100%;
             height: 100%;
             z-index: -1;
         }
     </style>
-    <img src="images/darkside.jpg"  alt="dark-side guys">
-    
-</template>    
+
+    <template>
+        <img src="images/darkside.jpg" alt="dark-side guys">
+    </template>
 </dom-module>
 
 <script>
-
     Polymer({
         is: "dark-side",
-        ready: function(){
+        ready: function () {
             console.log('init dark-side');
         }
-        
-    });
 
-    
+    });
 </script>

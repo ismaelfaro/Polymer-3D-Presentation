@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-     
-    
+
+
     <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 
-<!--    <link rel="import" href="bower_components/test/test.html"> -->
-<!--    <link rel="import" href="bower_components/vr-engine/vr-engine.html">
+    <!--    <link rel="import" href="bower_components/test/test.html"> -->
+    <!--    <link rel="import" href="bower_components/vr-engine/vr-engine.html">
     <link rel="import" href="bower_components/vr-video/vr-video.html">  -->
-    
-    <link rel="import" href="bower_components/dark-side/dark-side.html"> 
-    
+
+    <!--    <link rel="import" href="bower_components/dark-side/dark-side.html"> -->
+    <link rel="import" href="bower_components/vr-scene/vr-scene.html">
+
     <style>
-     .dale{
-         position: absolute;
-         width: 100%;
-         height: 100%;
-     }
-    
-    
+        .dale {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
+
 <body>
 
-<dark-side class="dale"></dark-side>
-
+    <vr-scene>
+        <vr-object url="/scenes/falcon_ani.babylon"></vr-object>
+        <vr-object url="/scenes/sky.babylon"></vr-object>
+        <vr-object url="/scenes/enemy_ani.babylon"></vr-object>
 <!--
+        <vr-object url="/scenes/floor.babylon"></vr-object>
+-->
+        <vr-light name="luz1" x="0" y="100" z="30"></vr-light>
+    </vr-scene>
+
+    <!--
         <vr-video url="/video/video-medicina.mp4" camera="oculus">
         </vr-video>
 -->
 </body>
+
 </html>

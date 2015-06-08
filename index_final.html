@@ -15,11 +15,15 @@
     <link rel="import" href="/bower_components/my-soundtrack/my-soundtrack.html">
     <link rel="import" href="/bower_components/my-title/my-title.html">
     <link rel="import" href="/bower_components/dark-side/dark-side.html">
-    <link rel="import" href="/bower_components/test/test.html">
+    <link rel="import" href="/bower_components/my-yoda/my-yoda.html">
+    <link rel="import" href="/bower_components/the-end/the-end.html">
 
+
+    <link rel="import" href="/bower_components/vr-element/vr-element.html">
     <link rel="import" href="/bower_components/vr-engine/vr-engine.html">
 
     <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+
 
     <style>
         body {
@@ -35,32 +39,39 @@
     <my-soundtrack url="/sounds/soundtrack.mp3"></my-soundtrack>
 
     <iron-pages selected="0">
+        <section>
 
-        <div>
             <my-title>
                 <div>
                     <h1> POLYMER 3D</h1>
                     <h1> THE FRONTEND WAR </h1>
                     <h1> STARWARS edition </h1>
-
                 </div>
             </my-title>
-        </div>
-        <div>
+
+        </section>
+        <section>
+
             <my-sable></my-sable>
             <dark-side></dark-side>
-        </div>
-        <div>
-            <vr-engine scene="/scenes/falcon.babylon" ></vr-engine>
-        </div>
-        <div>
-            <h1> Tanks </h1>
-            <br>
-            <h1> que la fuerza</h1>
-            <h1> te acompañe</h1>
-            <br>
-            <h1> +@ismaelfaro  </h1>
-        </div>
+
+        </section>
+        <section>
+
+            <my-yoda></my-yoda>
+
+        </section>
+        <section>
+
+            <vr-engine scene="/scenes/falcon.babylon"></vr-engine>
+
+        </section>
+        <section>
+
+            <the-end></the-end>
+
+        </section>
+
     </iron-pages>
 
     <script>

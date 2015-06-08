@@ -1,0 +1,176 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script src="js/Babylon.js"></script>
+<script src="js/Oimo.js"></script>
+
+<dom-module id="vr-scene">
+
+    <style>
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+
+    <template>
+        <canvas id="renderCanvas"></canvas>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'vr-scene',
+        properties: {
+            scene: {
+                
+            },
+            animationLength: {
+                type    : Number,
+                value   : "250"
+            },
+            followme: {
+                type    : String,
+                value   : "followme"
+            }
+        },
+
+        sceneObject : null,
+        cameraObject: null,
+        canvas: null,
+        engine: null,
+        lights: [],
+
+        createScene: function () {
+            var self = this;
+
+            this.sceneObject = new BABYLON.Scene(this.engine);
+            this.sceneObject.clearColor = new BABYLON.Color3(0, 0, 0);
+
+            switch ( this.camera ) {
+                case 'oculus':
+                    this.cameraObject = new BABYLON.OculusCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                    break;
+                case 'cardboard':
+                    this.cameraObject = new BABYLON.VRDeviceOrientationCamera('camera', new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                    this.cameraObject.rotation.x = 90;
+                    break;
+                case 'vr':
+                    this.cameraObject = new BABYLON.VirtualJoysticksCamera('camera', BABYLON.Vector3.Zero(), this.sceneObject);
+                    break;
+                case 'follow':
+                    this.cameraObject                    = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 0, 0), this.sceneObject);
+                    this.cameraObject.target             = this.followme; 
+                    this.cameraObject.radius             = 10; 
+                    this.cameraObject.heightOffset       = 8;
+                    this.cameraObject.rotationOffset     = 100;
+                    this.cameraObject.cameraAcceleration = 0.001;
+                    this.cameraObject.maxCameraSpeed     = 0.04;     
+                    break;
+                default:
+                    this.cameraObject = new BABYLON.ArcRotateCamera('camera', 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
+                    this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
+            }
+
+            this.cameraObject.attachControl(this.canvas, false);
+
+        },
+        addLight: function (dataObject) {
+            new BABYLON.HemisphericLight(dataObject.name, new BABYLON.Vector3(dataObject.position.x, dataObject.position.y, dataObject.position.z), this.sceneObject);
+        },
+        addObject: function (dataObject) {
+
+            if (!dataObject.url) return null;
+
+            var sceneFilename = dataObject.url.split('/').slice(-1)[0],
+                rootUrl = dataObject.url.slice(0, -sceneFilename.length);
+
+            BABYLON.SceneLoader.ImportMesh('', rootUrl, sceneFilename, this.sceneObject, function (newMeshes) {
+                newMeshes.forEach(function (elemen) {
+                    if (elemen.animations.length > 0) {
+                        console.info(elemen.animations);
+                        self.sceneObject.beginAnimation(elemen, 0, self.animationLength, true);
+                        if (elemen.id === this.followme) {
+                            self.cameraObject.target = elemen;
+                        }
+                    }
+                });
+
+            });
+        },
+        ready: function () {
+            var self = this;
+
+            this.canvas = this.$.renderCanvas;
+
+            this.engine = new BABYLON.Engine(this.canvas, true);
+
+            this.engine.setSize(window.innerWidth, window.innerHeight);
+
+            this.createScene();
+
+            this.engine.runRenderLoop(function () {
+                self.sceneObject.render();
+            });
+
+            window.addEventListener('resize', function () {
+                self.engine.resize();
+            });
+        }
+    });
+</script>
+
+
+<script>
+    Polymer({
+        is: "vr-object",
+        properties: {
+            url: String
+        },
+        ready: function () {
+            Polymer.dom(this).parentNode.addObject({
+                url: this.url
+            });
+        }
+    });
+</script>
+
+
+<script>
+    Polymer({
+        is: "vr-light",
+        properties: {
+            name: String,
+            x: {
+                type: Number,
+                value: 0
+            },
+            y: {
+                type: Number,
+                value: 0
+            },
+            z: {
+                type: Number,
+                value: 0
+            },
+            intensity: {
+                type: Number,
+                value: 1
+            }
+
+        },
+        ready: function () {
+            var position = {
+                x: this.x,
+                y: this.y,
+                z: this.z
+            };
+            Polymer.dom(this).parentNode.addLight({
+                'name': this.name,
+                'position': position,
+                'intensity': this.intensity
+            });
+        }
+    });
+</script>
