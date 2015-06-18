@@ -27,8 +27,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     [item] {
       height: 60px;
       padding-left: 16px;
-      @apply(--layout-horizontal --layout-center);
+      padding-top: 20px;
+      @apply(--layout-center --layout-center-justified);
+        
       border-bottom: 1px solid #bbb;
+      text-align: center;
+      vertical-align: middle;
     }
 
     [main] {
@@ -61,8 +65,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       width: 300px;
       margin: 16px auto;
       background-color: #eee;
-      @apply(--layout-vertical --layout-center-center);
+/*      @apply(--layout-horizontal --layout-center-center);*/
     }
+    
 
   </style>
 
@@ -70,9 +75,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div nav>
       <div content>
-        <div item>ITEM 1</div>
-        <div item>ITEM 2</div>
-        <div item>ITEM 3</div>
+        <div item>
+            <div demodemo>
+                    ITEM 1                
+            </div>
+
+        </div>
+        <div item>
+                   <div demodemo>
+                    ITEM 1                
+            </div>
+        </div>
+        <div item>       <div demodemo>
+                    ITEM 1                
+            </div></div>
         <div item>ITEM 4</div>
         <div item>ITEM 5</div>
       </div>

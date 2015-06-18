@@ -1,7 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="vr-babyon.html">
 
+<!--
 <script src="js/Babylon.js"></script>
 <script src="js/Oimo.js"></script>
+-->
 
 <dom-module id="vr-scene">
 
@@ -23,6 +26,7 @@
     Polymer({
         is: 'vr-scene',
         properties: {
+            camera: String,
             scene: {
                 
             },

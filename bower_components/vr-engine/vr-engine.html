@@ -1,7 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../vr-scene/vr-babyon.html">
 
+<!--
 <script src="js/Babylon.js"></script>
 <script src="js/Oimo.js"></script>
+-->
 
 <dom-module id="vr-engine">
 
@@ -14,7 +17,9 @@
     </style>
 
     <template>
-        <canvas id="renderCanvas"></canvas>
+        
+            <canvas id="renderCanvas"></canvas>
+        
     </template>
 
 </dom-module>
@@ -30,7 +35,7 @@
             camera: {
                 type: String
             },
-            animationLength:{
+            animationLength: {
                 type: Number,
                 value: "250"
             }
@@ -77,8 +82,8 @@
 
             this.cameraObject.attachControl(this.canvas, false);
 
-            this.lights.push( new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 30, 30), this.sceneObject));
-           
+            this.lights.push(new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 30, 30), this.sceneObject));
+
             var sceneFilename = this.scene.split('/').slice(-1)[0],
                 rootUrl = this.scene.slice(0, -sceneFilename.length);
 
