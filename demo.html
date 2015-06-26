@@ -1,8 +1,46 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>polymer demo 1</title><script src="/bower_components/webcomponentsjs/webcomponents.js"></script><style type="text/css">@font-face{font-family:jedai;src:url(bower_components/font-jedai/STARWARS.eot?) format("eot"),url(bower_components/font-jedai/STARWARS.woff) format("woff"),url(bower_components/font-jedai/STARWARS.ttf) format("truetype"),url(bower_components/font-jedai/STARWARS.svg#STARWARS) format("svg");font-weight:400;font-style:normal}h1,h2,h3{font-family:jedai;color:#000;font-size:60px;text-align:center;-webkit-text-stroke-width:1px;-webkit-text-stroke-color:#ff0}</style><script src="/bower_components/vr-element/js/Babylon.js"></script><script src="/bower_components/vr-element/js/Oimo.js"></script><script src="/bower_components/vr-scene/js/Babylon.js"></script><script src="/bower_components/vr-scene/js/Oimo.js"></script><style>body{background-color:#000;color:#ff0}</style></head><body><div hidden=""><dom-module id="sable-sounds"><template><audio id="audio1"><source src="/bower_components/my-sable/sounds/s1.mp3"></audio><audio id="audio2"><source src="/bower_components/my-sable/sounds/s2.mp3"></audio><audio id="audio3"><source src="/bower_components/my-sable/sounds/s3.mp3"></audio><audio id="audio4"><source src="/bower_components/my-sable/sounds/s4.mp3"></audio><audio id="audio5"><source src="/bower_components/my-sable/sounds/s5.mp3"></audio></template></dom-module><dom-module id="sable-laser"><style>@keyframes desenfundo{0%{height:0}100%{height:250px}}@-webkit-keyframes desenfundo{0%{height:0}100%{height:250px}}#laser{width:20px;height:450px;background-color:#0ff;transform-origin:50% 0;-webkit-transform-origin:50% 0;-moz-transform-origin:50% 0;transform:translate3d(0px,0,30px);-webkit-transform:translate3d(600px,0,30px);margin-left:50%;margin-top:50%;position:absolute;border-radius:10px;animation-name:desenfundo;animation-duration:.2s;animation-timing-function:ease-in;-webkit-animation-name:desenfundo;-webkit-animation-duration:.2s;-webkit-animation-timing-function:ease-in}</style><template><div id="laser"></div></template></dom-module><dom-module id="my-sable"><template><sable-sounds id="sounds"></sable-sounds><sable-laser id="laserLigth" rotation="30"></sable-laser></template></dom-module><dom-module id="my-soundtrack"><template><audio id="soundtrack"><source src="{{url}}"></audio></template></dom-module><dom-module id="my-title"><template><style>#titles{position:absolute;width:60em;height:50em;bottom:0;left:20%;font-weight:700;text-align:justify;overflow:hidden;transform-origin:30% 50%;transform:perspective(600px) rotateX(50deg)}#titlecontent{position:absolute;top:100%;animation:scroll 30s linear 0s infinite}@keyframes scroll{0%{top:90%}100%{top:-170%}}</style><div id="titles"><div id="titlecontent"><content></content></div></div></template></dom-module><dom-module id="dark-side"><style>img{width:100%;height:100%;z-index:-1}</style><template><img src="/bower_components/dark-side/images/darkside.jpg" alt="dark-side guys"></template></dom-module><dom-module id="my-yoda"><style>img{width:100%;height:100%;z-index:-1}</style><template><img src="/bower_components/my-yoda/images/yoda.jpg" alt="yoda guys"></template></dom-module><dom-module id="the-end"><template><h1> Tanks </h1><br><h1> que la fuerza</h1><h1> te acompañe</h1><br><h1> +@ismaelfaro  </h1><pre>
 
-        Thanks to:
-            - GDG Caceres
-            - Abdon Rodriguez @abdonrd
-            - my Family.
-            - and You
-            </pre></template></dom-module><dom-module id="vr-element"><style>#renderCanvas{width:100%;height:100%;touch-action:none}</style><template><canvas id="renderCanvas"></canvas></template></dom-module><dom-module id="vr-engine"><style>#renderCanvas{width:100%;height:100%;touch-action:none}</style><template><div><canvas id="renderCanvas"></canvas></div></template></dom-module><dom-module id="iron-pages"><style>:host{display:block}:host>::content>:not(.iron-selected){display:none!important}</style><template><content></content></template></dom-module></div><my-soundtrack url="/sounds/soundtrack.mp3"></my-soundtrack><iron-pages selected="0"><section><my-title><div><h1> POLYMER 3D</h1><h1> THE FRONTEND WAR </h1><h1> STARWARS edition </h1></div></my-title></section><section><my-sable></my-sable><dark-side></dark-side></section><section><my-yoda></my-yoda></section><section><vr-engine scene="/scenes/falcon.babylon"></vr-engine></section><section><the-end></the-end></section></iron-pages><script src="demo.js"></script></body></html>
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+
+<dom-module id="vr-scene">
+
+  <style>
+
+  </style>
+
+  <template>
+    demo
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+    is: 'vr-scene',
+    properties: {
+
+    },
+    say: function(){
+      console.log('aaa');
+    },
+    ready: function() {
+
+    }
+
+  });
+
+  Polymer({
+    is: 'vr-object',
+    properties: {
+      url:String
+    },
+    ready: function() {
+
+      Polymer.dom(this).parentNode.say();
+    }
+
+  });
+
+
+</script>

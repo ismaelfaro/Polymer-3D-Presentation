@@ -1,0 +1,26 @@
+{
+    "name": "wc-babylonjs",
+    "version": "1.0.0",
+    "authors": [
+    "ismaelfaro <hi@ismaelfaro.com>"
+  ],
+    "description": "Load BabylonJS WebGL engine. This is to can use 'import' webcomponent utility ",
+    "keywords": [
+    "web-component",
+    "babylonjs",
+    "import"
+  ],
+    "main": "wc-babylonjs.html",
+    "license": "http://polymer.github.io/LICENSE.txt",
+    "homepage": "https://github.com/ismaelfaro/wc-babylonjs/",
+    "ignore": [
+    "/.*",
+    "/test/"
+  ],
+    "dependencies": {
+        "babylonjs": "babylonjs"
+    },
+    "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+    }
+}
