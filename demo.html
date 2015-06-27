@@ -35,11 +35,30 @@
     properties: {
       url:String
     },
+
+    fununo: function(callback, b, c){
+      console.log('fununo');
+      callback();
+
+    },
+    fundos: function(callback){
+      console.log('fundos');
+      callback();
+    },
     ready: function() {
-
+      self = this;
+      var hola = "hola";
       Polymer.dom(this).parentNode.say();
-    }
+      this.fununo(function(dale){
+        console.log (hola);
+        console.log('preeuno');
 
+        self.fundos(function(){
+            console.log (hola);
+            console.log('predos');
+        });
+      });
+    }
   });
 
 

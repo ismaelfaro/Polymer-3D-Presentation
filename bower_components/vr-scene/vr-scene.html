@@ -39,7 +39,7 @@
         cameraObject: null,
         canvas: null,
         engine: null,
-        lights: Array,
+        lights: [],
         _convertToV3: function(first, second, third){
 
             if (!second) return new BABYLON.Vector3(first.x, first.y, first.z);
@@ -62,7 +62,7 @@
         },
         addCamera: function( name, type, position){
           var positionZero    =  {x:0, y:0, z:0},
-              positionDefault =  position || {x:0, y:1, z:-15};
+              positionDefault =  position || {x:0, y:20, z:30};
 
           switch (type) {
               case 'oculus':
@@ -103,28 +103,26 @@
         },
         addObject: function (dataObject) {
             self = this;
-            var parameters = dataObject;
+            var dataObject = dataObject;
             if (!dataObject.url) return null;
-
-            console.info(dataObject);
 
             var sceneFilename = dataObject.url.split('/').slice(-1)[0],
                 rootUrl = dataObject.url.slice(0, -sceneFilename.length);
 
             BABYLON.SceneLoader.ImportMesh('', rootUrl, sceneFilename, this.sceneObject, function (newMeshes) {
-                var parameters = self.dataObject;
-                console.info(this.dataObject);
-
                 newMeshes.forEach(function (element) {
-                    console.info(this.dataObject);
-                    element.position = this._convertToV3(self.parameters.position);
+                    element.position  = self._convertToV3(dataObject.position);
+                    element.rotation  = self._convertToV3(dataObject.rotation);
+                    element.scaling     = self._convertToV3(dataObject.scale);
+                    console.info(element);
+                    console.info(dataObject.rotation);
                     if (element.animations.length > 0) {
                         self.sceneObject.beginAnimation(element, 0, self.animationLength, true);
                         if (element.id === this.followme) {
                             self.cameraObject.target = element;
                         }
                     }
-                }).bind(this);
+                });
             });
         },
         ready: function () {
@@ -168,14 +166,32 @@
                 value: 0
             },
             position: Object,
-            rotation: {
-                type: Object,
-                value: {x:0, y:0, z:0},
+            rx : {
+                type: Number,
+                value: -0.5
             },
-            scale: {
-                type: Object,
-                value: {x:0, y:0, z:0},
-            }
+            ry : {
+                type: Number,
+                value: 0
+            },
+            rz: {
+                type: Number,
+                value: 0
+            },
+            rotation: Object,
+            sx: {
+                type: Number,
+                value: 1
+            },
+            sy: {
+                type: Number,
+                value: 1
+            },
+            sz: {
+                type: Number,
+                value: 1
+            },
+            scale: Object
 
         },
         ready: function () {
@@ -194,7 +210,6 @@
                               y: this.sy,
                               z: this.sz }
                 };
-            console.info(parameters);
             Polymer.dom(this).parentNode.addObject(parameters);
         }
     });
@@ -254,7 +269,6 @@
                                         b: this.cb },
                     'specular'  : this.specular
                 }
-
             Polymer.dom(this).parentNode.addLight(parameters);
         }
     });
