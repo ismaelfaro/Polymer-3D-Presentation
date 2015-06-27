@@ -42,7 +42,12 @@
         canvas: null,
         engine: null,
         lights: [],
-
+        _convertToV3: function(parameters){
+            return   new BABYLON.Vector3(parameters.x, parameters.y, parameters.z);
+        },
+        _convertToC3: function(color){
+            return  new BABYLON.Color3(color.r, color.g, color.b);
+        },
         initScene: function () {
             var self = this;
             this.sceneObject = new BABYLON.Scene(this.engine);
@@ -51,7 +56,7 @@
             this.addCamera('mainCamera', this.camera);
         },
         setBGColor: function(color){
-            this.sceneObject.clearColor = new BABYLON.Color3(color.r, color.g, color.b);
+            this.sceneObject.clearColor = this._convertToC3(color);
         },
         addCamera: function( name, type, position){
           var positionZero    =  position || new BABYLON.Vector3(0, 0, 0),
@@ -86,31 +91,38 @@
           this.cameraObject.attachControl(this.canvas, false);
         },
         addLight: function (dataObject) {
-            var light = new BABYLON.HemisphericLight(dataObject.name, new BABYLON.Vector3(dataObject.position.x, dataObject.position.y, dataObject.position.z), this.sceneObject);
+            var light = new BABYLON.HemisphericLight(dataObject.name, this._convertToV3(dataObject.position), this.sceneObject);
 
-            light.diffuse  =  new BABYLON.Color3(dataObject.color.r,dataObject.color.g, dataObject.color.b);
-            light.specular =  new BABYLON.Color3(dataObject.specular.r,dataObject.specular.g, dataObject.specular.b);
+            light.diffuse  = this._convertToC3(dataObject.color);
+            light.specular = this._convertToC3(dataObject.specular);
             light.intensity = dataObject.intensity;
 
             this.lights.push(light);
         },
         addObject: function (dataObject) {
-
+            self = this;
+            var parameters = dataObject;
             if (!dataObject.url) return null;
+
+            console.info(dataObject);
 
             var sceneFilename = dataObject.url.split('/').slice(-1)[0],
                 rootUrl = dataObject.url.slice(0, -sceneFilename.length);
 
             BABYLON.SceneLoader.ImportMesh('', rootUrl, sceneFilename, this.sceneObject, function (newMeshes) {
-                newMeshes.forEach(function (elemen) {
-                    if (elemen.animations.length > 0) {
-                        // console.info(elemen.animations);
-                        self.sceneObject.beginAnimation(elemen, 0, self.animationLength, true);
-                        if (elemen.id === this.followme) {
-                            self.cameraObject.target = elemen;
+                var parameters = self.dataObject;
+                console.info(this.dataObject);
+
+                newMeshes.forEach(function (element) {
+                    console.info(this.dataObject);
+                    element.position = this._convertToV3(self.parameters.position);
+                    if (element.animations.length > 0) {
+                        self.sceneObject.beginAnimation(element, 0, self.animationLength, true);
+                        if (element.id === this.followme) {
+                            self.cameraObject.target = element;
                         }
                     }
-                });
+                }).bind(this);
             });
         },
         ready: function () {
@@ -153,10 +165,7 @@
                 type: Number,
                 value: 0
             },
-            position: {
-                type: Object,
-                value: {x:0, y:0, z:0},
-            },
+            position: Object,
             rotation: {
                 type: Object,
                 value: {x:0, y:0, z:0},
@@ -168,28 +177,23 @@
 
         },
         ready: function () {
-            var position = this.position || {
-                  x: this.px,
-                  y: this.py,
-                  z: this.pz
-                },
-                rotation = this.rotation || {
-                  x: this.rx,
-                  y: this.ry,
-                  z: this.rz
-                },
-                scale = this.rotation || {
-                  x: this.sx,
-                  y: this.sy,
-                  z: this.sz
+            var parameters =  {
+                  url       : this.url,
+                  position  : this.position || {
+                              x: this.px,
+                              y: this.py,
+                              z: this.pz },
+                  rotation  : this.rotation || {
+                              x: this.rx,
+                              y: this.ry,
+                              z: this.rz },
+                  scale     : this.rotation || {
+                              x: this.sx,
+                              y: this.sy,
+                              z: this.sz }
                 };
-
-            Polymer.dom(this).parentNode.addObject({
-                url: this.url,
-                position: position,
-                rotation: rotation,
-                scale: scale
-            });
+            console.info(parameters);
+            Polymer.dom(this).parentNode.addObject(parameters);
         }
     });
 </script>
@@ -241,8 +245,6 @@
                     'color'     : this.color,
                     'specular'  : this.specular
                 }
-
-            console.info(parameters);
 
             Polymer.dom(this).parentNode.addLight(parameters);
         }
