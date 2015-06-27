@@ -47,25 +47,29 @@
             var self = this;
             this.sceneObject = new BABYLON.Scene(this.engine);
             this.setBGColor( this.bgcolor || {r:0,g:0,b:0} );
-            this.addCamera(this.camera);
+
+            this.addCamera('mainCamera', this.camera);
         },
         setBGColor: function(color){
             this.sceneObject.clearColor = new BABYLON.Color3(color.r, color.g, color.b);
         },
         addCamera: function( name, type, position){
+          var positionZero    =  position || new BABYLON.Vector3(0, 0, 0),
+              positionDefault =  position || new BABYLON.Vector3(0, 1, -15);
+
           switch (type) {
               case 'oculus':
-                  this.cameraObject = new BABYLON.OculusCamera(name, new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                  this.cameraObject = new BABYLON.OculusCamera(name, positionDefault , this.sceneObject);
                   break;
               case 'cardboard':
-                  this.cameraObject = new BABYLON.VRDeviceOrientationCamera(name, new BABYLON.Vector3(0, 1, -15), this.sceneObject);
+                  this.cameraObject = new BABYLON.VRDeviceOrientationCamera(name, positionDefault, this.sceneObject);
                   this.cameraObject.rotation.x = 90;
                   break;
               case 'vr':
-                  this.cameraObject = new BABYLON.VirtualJoysticksCamera(name, BABYLON.Vector3.Zero(), this.sceneObject);
+                  this.cameraObject = new BABYLON.VirtualJoysticksCamera(name, positionZero , this.sceneObject);
                   break;
               case 'follow':
-                  this.cameraObject                    = new BABYLON.FollowCamera(name, new BABYLON.Vector3(0, 0, 0), this.sceneObject);
+                  this.cameraObject                    = new BABYLON.FollowCamera(name, positionZero , this.sceneObject);
                   this.cameraObject.target             = this.followme;
                   this.cameraObject.radius             = 10;
                   this.cameraObject.heightOffset       = 8;
@@ -74,8 +78,9 @@
                   this.cameraObject.maxCameraSpeed     = 0.04;
                   break;
               default:
-                  this.cameraObject = new BABYLON.ArcRotateCamera(name, 0, 0, 0, BABYLON.Vector3.Zero(), this.sceneObject);
-                  this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, -30));
+                  this.cameraObject = new BABYLON.ArcRotateCamera(name, 0, 0, 0, positionZero, this.sceneObject);
+                  this.cameraObject.setPosition(positionDefault);
+                  // this.cameraObject.setPosition(new BABYLON.Vector3(0, 15, 30));
           }
 
           this.cameraObject.attachControl(this.canvas, false);
@@ -110,7 +115,7 @@
         },
         ready: function () {
             var self = this;
-            console.info (this.bgcolor);
+
             this.canvas = this.$.renderCanvas;
 
             this.engine = new BABYLON.Engine(this.canvas, true);
