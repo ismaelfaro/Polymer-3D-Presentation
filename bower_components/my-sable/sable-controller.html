@@ -1,0 +1,42 @@
+<link href="../polymer/polymer.html" rel="import">
+
+
+<dom-module id="sable-controller">
+
+    <style>
+    </style>
+
+    <template>
+        
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "sable-controller",
+        properties:{
+            rotation: {
+                type: Object,
+                notify: true
+            } 
+        },
+        initState: null,
+        devOrientHandler: function (event) {
+
+            var rotation = {
+                x: Math.round(event.alpha),
+                y: Math.round(event.gamma),
+                z: Math.round(event.beta)
+            };
+
+            this.rotation = rotation;
+           
+        },
+        ready: function () {
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', this.devOrientHandler.bind(this), false);
+            }
+        }
+        
+    });
+</script>

@@ -23,9 +23,18 @@
 <script>
     Polymer({
         is:'sable-sounds',
+        properties:{
+            
+          rotation: { 
+                type: Number,
+                observer: "play"
+          }
+        },
         play: function () {
-            var converToSecureEval = eval;
-            eval('this.$.audio' + Math.floor((Math.random() * 5) + 1) + '.play()');
+            
+            if (this.rotation.y > 7 || this.rotation.y < -7) {
+               eval('this.$.audio' + Math.floor((Math.random() * 5) + 1) + '.play()');
+            }    
         },
         ready: function () {
             console.log('init sounds');

@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-
 <link rel="import" href="../wc-babylonjs/wc-babylonjs.html">
 
 <dom-module id="vr-scene">
@@ -62,7 +61,8 @@
         },
         addCamera: function( name, type, position){
           var positionZero    =  {x:0, y:0, z:0},
-              positionDefault =  position || {x:0, y:20, z:30};
+              positionDefault =  position || {x:0, y:10, z:-20};
+              // positionDefault =  position || {x:0, y:20, z:30};
 
           switch (type) {
               case 'oculus':

@@ -1,44 +1,24 @@
-<link href="../polymer/polymer.html" rel="import">
-<link href="sable-sounds.html" rel="import">
-<link href="sable-laser.html" rel="import">
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="sable-laser.html">
+<link rel="import" href="sable-controller.html">
+<link rel="import" href="sable-sounds.html">
 
 
 <dom-module id="my-sable">
-
+    
     <template>
-
-        <sable-sounds id="sounds"></sable-sounds>
-        <sable-laser id="laserLigth" rotation="30"></sable-laser>
-
+       
+        <sable-laser rotation="{{deviceRotation}}" ></sable-laser>
+        <sable-controller rotation="{{deviceRotation}}" ></sable-controller>
+        <sable-sounds rotation="{{deviceRotation}}"></sable-sounds>
     </template>
+    
 </dom-module>
+
 
 <script>
     Polymer({
-        is: "my-sable",
-        initState: null,
-        playSounds: function (rotation) {
-            if (rotation.y > 7 || rotation.y < -7) {
-                this.$.sounds.play();
-            }
-        },
-        devOrientHandler: function (event) {
-
-            var rotation = {
-                x: Math.round(event.alpha),
-                y: Math.round(event.gamma),
-                z: Math.round(event.beta)
-            };
-
-            this.$.laserLigth.rotation = rotation;
-            this.playSounds(rotation);
-
-        },
-        ready: function () {
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener('deviceorientation', this.devOrientHandler.bind(this), false);
-            }
-        }
-
+        is: "my-sable"
     });
+    
 </script>

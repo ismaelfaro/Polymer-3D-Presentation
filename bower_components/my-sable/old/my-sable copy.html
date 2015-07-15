@@ -1,0 +1,48 @@
+<link href="../polymer/polymer.html" rel="import">
+<link href="sable-sounds.html" rel="import">
+<link href="sable-laser.html" rel="import">
+<link href="sable-controller.html" rel="import">
+
+
+<dom-module id="my-sable">
+
+    <template>
+
+        <sable-sounds id="sounds"></sable-sounds>
+        <sable-laser id="laserLigth" rotation="30"></sable-laser>
+        <sable-controller rotation="{{deviceRotation}}"></sable-controller>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "my-sable",
+        properties:{
+            rotation: Number
+        },
+        initState: null,
+        playSounds: function (rotation) {
+            if (rotation.y > 7 || rotation.y < -7) {
+                this.$.sounds.play();
+            }
+        },
+        devOrientHandler: function (event) {
+
+            var rotation = {
+                x: Math.round(event.alpha),
+                y: Math.round(event.gamma),
+                z: Math.round(event.beta)
+            };
+
+            this.$.laserLigth.rotation = rotation;
+            this.playSounds(rotation);
+
+        },
+        ready: function () {
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', this.devOrientHandler.bind(this), false);
+            }
+        }
+
+    });
+</script>

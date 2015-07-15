@@ -1,0 +1,22 @@
+<link href="../polymer/polymer.html" rel="import">
+<link href="sable-sounds.html" rel="import">
+<link href="sable-laser.html" rel="import">
+<link href="sable-controller.html" rel="import">
+
+
+<dom-module id="my-sable">
+
+    <template>
+
+        <sable-sounds rotation="{{deviceRotation}}"></sable-sounds>
+        <sable-laser rotation="{{deviceRotation}}"></sable-laser>
+        <sable-controller rotation="{{deviceRotation}}"></sable-controller>
+        
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "my-sable"
+    });
+</script>
