@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Polymer StarWars</title>
+    <link rel="stylesheet" href="/style/style.css">
+
+    <link rel="import" href="/bower_components/font-jedai/font-jedai.html">
+    <link rel="import" href="/bower_components/my-title/my-title.html">
+    <link rel="import" href="/bower_components/my-sable/my-sable.html">
+    <link rel="import" href="/bower_components/dark-side/dark-side.html">
+    <link rel="import" href="/bower_components/my-yoda/my-yoda.html">
+    <link rel="import" href="/bower_components/vr-engine/vr-engine.html">
+    <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="/bower_components/my-soundtrack/my-soundtrack.html">
+
+</head>
+
+<body>
+
+    <my-soundtrack url="/sounds/soundtrack.mp3"></my-soundtrack>
+
+    <iron-pages selected="0">
+        <section>
+            <my-title>
+                <h1>TLP 2015</h1>
+                <h1>POLYMER and 3D</h1>
+                <h1>STARWARS edition</h1>
+            </my-title>
+        </section>
+        <section>
+            <my-sable></my-sable>
+            <dark-side></dark-side>
+        </section>
+        <section>
+            <my-yoda></my-yoda>
+        </section>
+        <section>
+            <vr-engine scene="/scenes/BB8-complete.babylon"></vr-engine>
+        </section>
+    </iron-pages>
+
+
+    <script>
+        var pages = document.querySelector('iron-pages');
+
+        document.addEventListener("keypress", function () {
+            pages.selectNext();
+        })
+    </script>
+
+
+</body>
+
+</html>
